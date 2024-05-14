@@ -5,8 +5,6 @@ from marshmallow_pynamodb import fields as custom_fields
 
 PYNAMODB_TYPE_MAPPING = {
     attributes.AttributeContainerMeta: custom_fields.PynamoNested,
-    attributes.BinaryAttribute: custom_fields.BinaryField,
-    attributes.BinarySetAttribute: custom_fields.BinarySetField,
     attributes.BooleanAttribute: fields.Boolean,
     attributes.JSONAttribute: fields.Raw,
     attributes.ListAttribute: fields.List,
