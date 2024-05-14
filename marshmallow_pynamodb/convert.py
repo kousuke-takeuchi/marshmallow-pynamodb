@@ -1,39 +1,38 @@
 from marshmallow import fields
-
 from pynamodb import attributes
 
 from marshmallow_pynamodb import fields as custom_fields
 
 PYNAMODB_TYPE_MAPPING = {
-    attributes.NumberAttribute: fields.Number,
-    attributes.JSONAttribute: fields.Raw,
-    attributes.UnicodeAttribute: fields.String,
+    attributes.AttributeContainerMeta: custom_fields.PynamoNested,
+    attributes.BinaryAttribute: custom_fields.BinaryField,
+    attributes.BinarySetAttribute: custom_fields.BinarySetField,
     attributes.BooleanAttribute: fields.Boolean,
-    attributes.UTCDateTimeAttribute: fields.DateTime,
-    attributes.MapAttribute: custom_fields.PynamoNested,
+    attributes.JSONAttribute: fields.Raw,
     attributes.ListAttribute: fields.List,
     attributes.NullAttribute: fields.Raw,
+    attributes.NumberAttribute: fields.Number,
+    attributes.NumberSetAttribute: custom_fields.NumberSet,
+    attributes.VersionAttribute: fields.Integer,
+    attributes.TTLAttribute: fields.TimeDelta,
+    attributes.UnicodeAttribute: fields.String,
     attributes.UnicodeSetAttribute: custom_fields.UnicodeSet,
-    attributes.NumberSetAttribute: custom_fields.NumberSet
+    attributes.UTCDateTimeAttribute: fields.DateTime,
+    attributes.MetaMapAttribute: custom_fields.PynamoNested,
 }
 
 try:
-    import pynamodb_attributes
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.FloatAttribute] = fields.Number,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.IntegerAttribute] = fields.Number,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.IntegerSetAttribute] = custom_fields.NumberSet,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.IntegerDateAttribute] = fields.Number,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.IntegerEnumAttribute] = fields.Number,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.UnicodeDelimitedTupleAttribute] = fields.String,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.UnicodeEnumAttribute] = fields.String,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.TimedeltaAttribute] = fields.Number,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.TimedeltaMsAttribute] = fields.Number,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.TimedeltaUsAttribute] = fields.Number,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.TimestampAttribute] = fields.DateTime,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.TimestampMsAttribute] = fields.DateTime,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.TimestampUsAttribute] = fields.DateTime,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.UUIDAttribute] = fields.String,
-    PYNAMODB_TYPE_MAPPING[pynamodb_attributes.UnicodeDatetimeAttribute] = fields.DateTime,
+    import pynamodb_attributes  # noqa
+    from marshmallow_enum import EnumField  # noqa
+
+    PYNAMODB_TYPE_MAPPING.update(
+        {
+            pynamodb_attributes.uuid.UUIDAttribute: fields.UUID,
+            pynamodb_attributes.integer.IntegerAttribute: fields.Integer,
+            pynamodb_attributes.unicode_enum.UnicodeEnumAttribute: EnumField,
+            pynamodb_attributes.integer_enum.IntegerEnumAttribute: EnumField,
+        }
+    )
 except ImportError:
     pass
 

@@ -2,15 +2,15 @@ from setuptools import setup, find_packages
 
 setup(
     name="marshmallow-pynamodb",
-    version="0.8.1",
+    version="0.9.0",
     packages=find_packages(exclude=('*test*',)),
     package_dir={'marshmallow-pynamodb': 'marshmallow_pynamodb'},
     description='PynamoDB integration with the marshmallow (de)serialization library',
-    author='Mathew Marcus',
-    author_email='mathewmarcus456@gmail.com',
+    author='Kousuke Takeuchi',
+    author_email='u651601f@gmail.com',
     long_description=open('README.rst').read(),
     install_requires=[
-        "marshmallow>=2.15.1",
-        "pynamodb>=2.0.3",
+        "marshmallow>=3.21.2",
+        "pynamodb>=6.0.0",
     ]
 )
