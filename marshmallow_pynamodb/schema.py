@@ -7,8 +7,8 @@ from six import with_metaclass, iteritems
 
 
 class ModelOpts(SchemaOpts):
-    def __init__(self, meta):
-        SchemaOpts.__init__(self, meta)
+    def __init__(self, meta, ordered=False):
+        SchemaOpts.__init__(self, meta, ordered=ordered)
         self.model = getattr(meta, 'model', None)
 
 
